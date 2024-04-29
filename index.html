@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perodic Table</title>
+</head>
+<style>
+body {
+    padding:0;
+    margin:0;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-image: url('https://st2.depositphotos.com/39005438/42096/i/450/depositphotos_420968308-stock-photo-blue-gradient-blurred-background-dark.jpg');
+    color:white;
+}
+
+
+    .main {
+        margin:20px;
+        display:grid;
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        grid-gap: 10px;
+        place-items: center;
+        
+
+    }
+    .main>div {
+        width: 100px;
+    }
+
+    .list-item {
+        height: 100px;
+        border: 2px solid rgb(255, 255, 255);
+        border-radius: 4px;
+        display: grid;
+        color:white;
+        place-content: center;
+        font-size:22px;
+
+    }
+    .heading {
+        text-align: center;
+    }
+</style>
+
+<body>
+    <h1 class="heading">Perodic Table</h1>
+    <div class="main">
+
+    </div>
+    <script>
+
+        let main = document.querySelector('.main');
+        const elementsUrl = './index.json'; // Replace with your API endpoint
+
+        async function fetchElements() {
+            try {
+                const response = await fetch(elementsUrl);
+                if (!response.ok) {
+                    throw new Error(`Error fetching elements: ${response.status}`);
+                }
+                const data = await response.json();
+                // console.log(data);
+
+                for (let i = 0; i < data.length; i++) {
+                    let listitem = document.createElement('div');
+                    listitem.classList.add = "listContent"
+                    listitem.innerHTML = `<li class="list-item" id=${i}>${data[i].Symbol}</li>`
+                    main.appendChild(listitem)
+
+                }
+
+                main.addEventListener('click', (e) => {
+                    console.log(e.target.id);
+
+                    alert(`Block: ${data[e.target.id].Block} // Element ${data[e.target.id].Element} // Atomic Mass ${data[e.target.id]['Atomic Mass']} // Electron Configuration ${data[e.target.id]['Electron Configuration']} `)
+
+                })
+
+            } catch (error) {
+                console.error('Error fetching elements:', error);
+                return []; // Handle errors gracefully, like displaying an error message
+            }
+        }
+        fetchElements()
+
+
+    </script>
+</body>
+
+</html>
